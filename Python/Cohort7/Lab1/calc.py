@@ -26,7 +26,10 @@ def multiply(num1, num2):
     return num1 * num2
 
 def divide(num1, num2):
-    return num1 / num2 if num2 else 0
+    while num2 == 0:
+        input('Devide by ZERO? Nope Try again: ')
+    else:
+        return num1 / num2
 
 opc = ''
 while(opc != 'x'):
@@ -51,7 +54,7 @@ while(opc != 'x'):
         print("Result: " + str(multiply(num1, num2)))
     elif(opc == '4'):
         print('You have selected Division my good sir.')
-        
+        print("Result: " + str(divide(num1, num2)))
             
 
     input("Press Enter to continue...")

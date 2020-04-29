@@ -8,6 +8,8 @@
             category
             price
             stock
+        - Display Catalog
+        - Display items with no stock (out of stock)
 """
 
 from menu import menu, clear, header
@@ -39,10 +41,45 @@ def register_item():
     print("Item created!")
 
 def display_catalog():
-    header("Current Catalog")
-
     size = len(catalog)
-    print("there are: " + str(size) + " items")
+    header("Current Catalog (" + str(size) + " items)")
+
+    print("|" + 'ID'.rjust(3)  
+        + "|" + 'Title'.ljust(30) 
+        + "|" + 'Category'.ljust(15) 
+        + "|" + 'Price'.rjust(10) 
+        + "|" + 'Stock'.rjust(5) + "|")
+    print("-" * 70)
+
+    for item in catalog:
+        print("|" + str(item.id).rjust(3)  
+        + "|" + item.title.ljust(30) 
+        + "|" + item.category.ljust(15) 
+        + "|" + str(item.price).rjust(11) 
+        + "|" + str(item.stock).rjust(8) + "|" )
+        print("-" * 70)
+    
+def display_no_stock():
+    size = len(catalog)
+    header("Out of Stock (" + str(size) + " items)")
+
+    print("|" + 'ID'.rjust(3)  
+        + "|" + 'Title'.ljust(30) 
+        + "|" + 'Category'.ljust(15) 
+        + "|" + 'Price'.rjust(10) 
+        + "|" + 'Stock'.rjust(5) + "|")
+    print("-" * 70)
+
+    for item in catalog:
+        if (item.stock == 0):
+            print("|" + str(item.id).rjust(3)  
+            + "|" + item.title.ljust(30) 
+            + "|" + item.category.ljust(15) 
+            + "|" + str(item.price).rjust(11) 
+            + "|" + str(item.stock).rjust(8) + "|" )
+            print("-" * 70)
+
+
 
 # instructions
 # start menu
@@ -51,10 +88,12 @@ while(opc != 'x'):
     clear()
     menu()
     opc = input("Please select an option: ")
-    print("-" * 30)
+    print("-" * 70)
     if(opc == '1'):
         register_item()
     elif (opc == '2'):
         display_catalog()
+    elif (opc == '3'):
+        display_no_stock()
 
     input("Press enter to continue...")

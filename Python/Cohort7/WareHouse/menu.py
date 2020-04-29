@@ -7,7 +7,7 @@ def menu():
     print("-" * 30)
     print('[1] Register Items')
     print('[2] Catalog')
-    print('[3] - Multiply')
+    print('[3] - Display Out of Stock Items')
     print('[4] - Divide')
     print('[x] - Close')
     print('\n')
@@ -21,6 +21,6 @@ clear()
 
 def header(title):
     clear()
-    print("-" * 30)
+    print("-" * 70)
     print(" " + title)
-    print("-" * 30)
+    print("-" * 70)

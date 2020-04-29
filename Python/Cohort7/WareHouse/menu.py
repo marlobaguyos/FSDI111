@@ -2,10 +2,10 @@ import os
 
 def menu():
     print("-" * 30)
-    print("Warehouse Control")
+    print("      Warehouse Control")
     print("-" * 30)
 
-    print('[1] - Add')
+    print('[1] Register Items')
     print('[2] - Substract')
     print('[3] - Multiply')
     print('[4] - Divide')

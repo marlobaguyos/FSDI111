@@ -3,8 +3,9 @@
     Functionality:
         - Repeated menu
 """
-import os
+
 from menu import menu, clear
+
 
 def separator():
     print("-" * 30)

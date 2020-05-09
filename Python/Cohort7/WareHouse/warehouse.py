@@ -24,6 +24,22 @@
         - Print the Total value of the stock (sum (price * stock))
 
         - Remove an Item from the Catalog
+
+        - Register a Sale
+            - show the list of items
+            - ask the user to choose an id
+            - ask the user to provide the qnty
+            - update the stock
+
+        - Have a log of events
+            - file name for the logs
+            - a list for the log entries (list of string)
+            - save_log
+            - read_log
+            - add_log_event function that receives an string
+            - update existing fns to register log entries
+
+        - Display the log of events
 """
 
 from menu import menu, clear, header
@@ -33,9 +49,10 @@ import pickle
 
 # global vars
 catalog = []
+log = []
 last_id = 0
 data_file = 'warehouse.data'
-
+log_file = 'log.data'
 
 def save_catalog():
     global data_file
@@ -64,10 +81,35 @@ def read_catalog():
     except:
         print("** No data file found, db is empty")
 
-# data
-# total item
-# id|title|asd|asda
+def save_log():
+    global log_file
+    writer = open(log_file, "wb")
+    pickle.dump(log, writer)
+    writer.close()
+    print("** Log Saved!")
 
+def read_log():
+    try:
+        global log_file
+        reader = open(log_file, "rb")
+        temp_list = pickle.load(reader)
+
+        for entry in temp_list:
+            log.append(entry)
+
+        how_many = len(log)
+        print("** Loaded " + str(how_many) + " log entries")
+    except:
+        print("** Error loading log entries")
+
+def get_current_time():
+    now = datetime.datetime.now()
+    return now.strftime("%b/%d/%Y %T")
+
+def and_log_event(event_type, event_description):
+    entry = get_current_time + " | " event_type.ljust(10) + " | " + event_description
+    log.append(entry)
+    save_log()
 
 # functions
 def register_item():
@@ -88,6 +130,7 @@ def register_item():
     new_item.stock = stock
 
     catalog.append(new_item)
+    add_log_event("NewItem", "Added item: " + str(last_id))
     print("Item created!")
 
 
@@ -131,17 +174,23 @@ def display_no_stock():
                 + "|" + str(item.stock).rjust(8) + "|")
             print("-" * 70)
 
-def update_stock():
+def update_stock(opc):
     display_catalog()
-    id = int(input("Select an ID: "))
+    id = int(input("Select an ID:"))
     # find the item with id = id
     found = False 
     for item in catalog:
         if(item.id == id):
             found = True
-            stock = int(input("New stock value: "))
-            item.stock = stock
-            print('Stock updated!')
+
+            if(opc == 1):
+                stock = int(input("New Stock value: "))
+                item.stock = stock
+                print('Stock updated!')
+            else:
+                sold = int(input("Number of items to sale: "))
+                item.stock -= sold # decrease the stock value by the number of sold items
+                print('Sale registered!')
 
     if(not found):
         print("Error: Selected Id does not exist, try again")
@@ -152,18 +201,33 @@ def cal_total_stock():
         total += float(item.price * item.stock)
     print("Total Stock Value: $" + str(total))
 
+# def delete_item():
+#     display_catalog()
+#     id = int(input("Select an ID: "))
+#     for item in catalog:
+#         if (id == item.id):
+#             catalog.remove(item)
+
 def delete_item():
     display_catalog()
-    id = int(input("Select an ID: "))
+    id = int(input("Select the id of the item to remove: "))      
+    found = False
     for item in catalog:
-        if (id == item.id):
+        if(item.id == id):
             catalog.remove(item)
-            
+            found = True
+            break
+    
+    if(found):
+        print("Item removed from catalog")
+    else:
+        print("**Error, selected id is incorrect, try again")
 
 
 # instructions
 # start menu
 read_catalog()
+read_log()
 input("Press enter to continue...")
 
 opc = ''
@@ -180,12 +244,16 @@ while(opc != 'x'):
     elif (opc == '3'):
         display_no_stock()
     elif (opc == '4'):
-        update_stock()
+        update_stock(1) # update stock
         save_catalog()
     elif (opc == '5'):
         cal_total_stock()
     elif (opc == '6'):
         delete_item()
+        save_catalog()
         display_catalog()
+    elif (opc == '7'):
+        update_stock(2) # register sale
+        save_catalog()
 
     input("Press enter to continue...")

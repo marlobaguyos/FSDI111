@@ -45,6 +45,7 @@
 from menu import menu, clear, header
 from item import Item
 import pickle
+import datetime
 
 
 # global vars
@@ -101,15 +102,6 @@ def read_log():
         print("** Loaded " + str(how_many) + " log entries")
     except:
         print("** Error loading log entries")
-
-def get_current_time():
-    now = datetime.datetime.now()
-    return now.strftime("%b/%d/%Y %T")
-
-def and_log_event(event_type, event_description):
-    entry = get_current_time + " | " event_type.ljust(10) + " | " + event_description
-    log.append(entry)
-    save_log()
 
 # functions
 def register_item():
@@ -223,6 +215,14 @@ def delete_item():
     else:
         print("**Error, selected id is incorrect, try again")
 
+def get_current_time():
+    now = datetime.datetime.now()
+    return now.strftime("%b/%d/%Y %T")
+
+def and_log_event(event_type, event_description):
+    entry = get_current_time + " | " + event_type.ljust(10) + " | " + event_description
+    log.append(entry)
+    save_log()
 
 # instructions
 # start menu

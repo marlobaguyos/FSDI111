@@ -234,9 +234,9 @@ def print_log():
     for entry in log:
         print(entry)
 
-def display_category():
-    for item in catalog:
-        if catalog.count(item.category)  1:
+# def display_category():
+#     for item in catalog:
+#         if catalog.count(item.category)  1:
 
 # instructions
 # start menu

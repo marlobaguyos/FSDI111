@@ -219,7 +219,7 @@ def get_current_time():
     now = datetime.datetime.now()
     return now.strftime("%b/%d/%Y %T")
 
-def and_log_event(event_type, event_description):
+def add_log_event(event_type, event_description):
     entry = get_current_time + " | " + event_type.ljust(10) + " | " + event_description
     log.append(entry)
     save_log()

@@ -53,6 +53,7 @@ import datetime
 # global vars
 catalog = []
 log = []
+category = []
 last_id = 0
 data_file = 'warehouse.data'
 log_file = 'log.data'

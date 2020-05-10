@@ -40,6 +40,8 @@
             - update existing fns to register log entries
 
         - Display the log of events
+
+        - Display list of categories (unique cats)
 """
 
 from menu import menu, clear, header
@@ -62,7 +64,6 @@ def save_catalog():
     pickle.dump(catalog, writer)
     writer.close()
     print("** Data Saved!!")
-
 
 def read_catalog():
     try:
@@ -179,10 +180,12 @@ def update_stock(opc):
                 stock = int(input("New Stock value: "))
                 item.stock = stock
                 print('Stock updated!')
+                add_log_event("SetStock", "Updated stock for item: " + str(item.id))
             else:
                 sold = int(input("Number of items to sale: "))
                 item.stock -= sold # decrease the stock value by the number of sold items
                 print('Sale registered!')
+                add_log_event("Sale", "Sold" + str(sold) + " items of item: " + str(item.id))
 
     if(not found):
         print("Error: Selected Id does not exist, try again")
@@ -208,6 +211,7 @@ def delete_item():
         if(item.id == id):
             catalog.remove(item)
             found = True
+            add_log_event("Remove", "Removed  item: " + str(item.id))
             break
     
     if(found):
@@ -220,9 +224,19 @@ def get_current_time():
     return now.strftime("%b/%d/%Y %T")
 
 def add_log_event(event_type, event_description):
-    entry = get_current_time + " | " + event_type.ljust(10) + " | " + event_description
+    entry = get_current_time() + " | " + event_type.ljust(10) + " | " + event_description
     log.append(entry)
     save_log()
+
+def print_log():
+    header("Log of events")
+    for entry in log:
+        print(entry)
+
+def display_category():
+    for item in catalog:
+        if catalog.count(item.category) > 1:
+            print(item.category)
 
 # instructions
 # start menu
@@ -255,5 +269,10 @@ while(opc != 'x'):
     elif (opc == '7'):
         update_stock(2) # register sale
         save_catalog()
+    elif (opc == '8'):
+        print_log()
+    elif (opc == '9'):
+        display_catalog()
+        
 
     input("Press enter to continue...")

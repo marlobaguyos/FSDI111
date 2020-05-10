@@ -12,6 +12,8 @@ def menu():
     print('[5] Calculate total stock value')
     print('[6] Delete an Item')
     print('[7] Register a sale')
+    print('[8] Display log')
+    print('[9] Display Category')
     print('[x] - Close')
     print('\n')
     print("-" * 30)

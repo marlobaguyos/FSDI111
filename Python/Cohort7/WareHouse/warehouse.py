@@ -235,8 +235,7 @@ def print_log():
 
 def display_category():
     for item in catalog:
-        if catalog.count(item.category) > 1:
-            print(item.category)
+        if catalog.count(item.category)  1:
 
 # instructions
 # start menu
